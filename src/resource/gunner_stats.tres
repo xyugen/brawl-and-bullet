@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="StatSheet" load_steps=2 format=3 uid="uid://bxr6xe50qs8ab"]
+
+[ext_resource type="Script" path="res://src/resource/stat_sheet.gd" id="1_p3mr6"]
+
+[resource]
+script = ExtResource("1_p3mr6")
+character_class = 1
+level = 1
+max_health = 7
+damage = 2
+speed = 100

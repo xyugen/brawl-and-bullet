@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://vcopbr7a7g14"]
+
+[ext_resource type="Script" path="res://src/scripts/gameplay/job.gd" id="1_wsk1w"]
+[ext_resource type="Script" path="res://src/scripts/gameplay/stats.gd" id="2_v2c71"]
+
+[node name="Job" type="Node"]
+script = ExtResource("1_wsk1w")
+
+[node name="Stats" type="Node" parent="."]
+script = ExtResource("2_v2c71")

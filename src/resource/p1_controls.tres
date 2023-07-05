@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlayerControls" load_steps=2 format=3 uid="uid://bfxobndxo0ime"]
+
+[ext_resource type="Script" path="res://src/resource/player_controls.gd" id="1_a4fkl"]
+
+[resource]
+script = ExtResource("1_a4fkl")
+player_index = 0
+move_left = "p1_move_left"
+move_right = "p1_move_right"
+move_up = "p1_move_up"
+move_down = "p1_move_down"
+attack = "p1_attack"
+confirm = "p1_confirm"
+cancel = "p1_cancel"

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://ct3ky1t8t8cey"]
+
+[ext_resource type="Script" path="res://src/scripts/player/jobs/gunner.gd" id="1_rvibh"]
+[ext_resource type="PackedScene" uid="uid://vcopbr7a7g14" path="res://src/scenes/gameplay/job.tscn" id="2_woriu"]
+
+[node name="Gunner" type="CharacterBody2D"]
+script = ExtResource("1_rvibh")
+
+[node name="Job" parent="." instance=ExtResource("2_woriu")]

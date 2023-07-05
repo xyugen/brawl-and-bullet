@@ -1,0 +1,107 @@
+[gd_scene load_steps=16 format=3 uid="uid://biuwgrqhre2hf"]
+
+[ext_resource type="Script" path="res://src/scripts/player/jobs/brawler.gd" id="1_et8ea"]
+[ext_resource type="PackedScene" uid="uid://vcopbr7a7g14" path="res://src/scenes/gameplay/job.tscn" id="3_shxtr"]
+[ext_resource type="Texture2D" uid="uid://wh38amr1sfj5" path="res://src/assets/32x32_brawler.png" id="4_lcplu"]
+[ext_resource type="Resource" uid="uid://d14s7asxcp2dn" path="res://src/resource/brawler_stats.tres" id="4_q0njh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vpynt"]
+size = Vector2(23, 16)
+
+[sub_resource type="Animation" id="Animation_u588m"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_piil1"]
+resource_name = "walk"
+length = 0.4
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6gabv"]
+_data = {
+"idle": SubResource("Animation_u588m"),
+"walk": SubResource("Animation_piil1")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6o1lu"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lca4u"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vb1df"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_boeci"]
+advance_mode = 2
+advance_condition = &"is_walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cnbct"]
+advance_mode = 2
+advance_condition = &"is_idle"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_bo80w"]
+states/idle/node = SubResource("AnimationNodeAnimation_6o1lu")
+states/idle/position = Vector2(332.554, 100)
+states/walk/node = SubResource("AnimationNodeAnimation_lca4u")
+states/walk/position = Vector2(488.554, 100)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_vb1df"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_boeci"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_cnbct")]
+graph_offset = Vector2(102.554, 0)
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_lx712"]
+
+[node name="Brawler" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "animation_tree") groups=["Players"]]
+motion_mode = 1
+script = ExtResource("1_et8ea")
+sprite = NodePath("Sprite2D")
+animation_tree = NodePath("AnimationTree")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 8)
+shape = SubResource("RectangleShape2D_vpynt")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6gabv")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_bo80w")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource("AnimationNodeStateMachinePlayback_lx712")
+parameters/conditions/is_idle = false
+parameters/conditions/is_walking = false
+
+[node name="Job" parent="." instance=ExtResource("3_shxtr")]
+starting_stats = ExtResource("4_q0njh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("4_lcplu")
+hframes = 5
+frame = 1
